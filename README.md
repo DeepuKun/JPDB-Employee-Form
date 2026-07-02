@@ -1,5 +1,6 @@
 # Employee Navigation Form (JsonPowerDB)
 
+
 A sleek, premium, single-page **Employee Form** application built using HTML, CSS, JavaScript, and jQuery, powered by **JsonPowerDB (JPDB)**.
 
 This project implements full record navigation capabilities (First, Previous, Next, Last) and database operations (New, Save, Edit, Change, Reset) with dynamic state transitions and a local `.env` configuration file loader.
