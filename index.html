@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Navigation Form - JsonPowerDB</title>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Alert system for custom toasts -->
+    <div id="alert-container"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <h1><i class="fa-solid fa-users-gear"></i> Employee Navigation Form</h1>
+            <p>Interact with JsonPowerDB using lightweight REST helper operations</p>
+        </header>
+
+        <!-- Main Workspace: Form and Buttons -->
+        <main class="form-panel">
+                <form id="employee-form" onsubmit="return false;">
+                    <div class="form-grid">
+                        <!-- Employee ID (Search Key) -->
+                        <div class="input-field-group form-group-full">
+                            <label for="empid">Employee ID</label>
+                            <input type="text" id="empid" name="empid" class="main-input" placeholder="e.g., EMP-101" required>
+                        </div>
+                        <!-- Employee Name -->
+                        <div class="input-field-group form-group-full">
+                            <label for="empname">Employee Name</label>
+                            <input type="text" id="empname" name="empname" class="main-input" placeholder="e.g., Jane Doe" required>
+                        </div>
+                        <!-- Basic Salary -->
+                        <div class="input-field-group">
+                            <label for="empsalary">Basic Salary (₹)</label>
+                            <input type="number" id="empsalary" name="empsalary" class="main-input" placeholder="e.g., 50000" min="0" required>
+                        </div>
+                        <!-- HRA -->
+                        <div class="input-field-group">
+                            <label for="emphra">HRA (₹)</label>
+                            <input type="number" id="emphra" name="emphra" class="main-input" placeholder="e.g., 5000" min="0" required>
+                        </div>
+                        <!-- DA -->
+                        <div class="input-field-group">
+                            <label for="empda">DA (₹)</label>
+                            <input type="number" id="empda" name="empda" class="main-input" placeholder="e.g., 2000" min="0" required>
+                        </div>
+                        <!-- Deduction -->
+                        <div class="input-field-group">
+                            <label for="empdeduct">Deduction (₹)</label>
+                            <input type="number" id="empdeduct" name="empdeduct" class="main-input" placeholder="e.g., 1500" min="0" required>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Navigation Controls & Action Buttons -->
+                <div class="buttons-section">
+                    <!-- Navigation group -->
+                    <div class="btn-group">
+                        <button id="first" class="btn btn-nav" title="First Record"><i class="fa-solid fa-angles-left"></i> First</button>
+                        <button id="prev" class="btn btn-nav" title="Previous Record"><i class="fa-solid fa-angle-left"></i> Previous</button>
+                        <button id="next" class="btn btn-nav" title="Next Record"><i class="fa-solid fa-angle-right"></i> Next</button>
+                        <button id="last" class="btn btn-nav" title="Last Record"><i class="fa-solid fa-angles-right"></i> Last</button>
+                    </div>
+
+                    <!-- Operations group -->
+                    <div class="btn-group">
+                        <button id="new" class="btn btn-action btn-new" title="New Record"><i class="fa-solid fa-plus"></i> New</button>
+                        <button id="save" class="btn btn-action btn-save" title="Save Record"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+                        <button id="edit" class="btn btn-action btn-edit" title="Edit Current"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+                        <button id="change" class="btn btn-action btn-change" title="Update Record"><i class="fa-solid fa-arrows-rotate"></i> Change</button>
+                        <button id="reset" class="btn btn-action btn-reset" title="Reset Changes"><i class="fa-solid fa-xmark"></i> Reset</button>
+                    </div>
+                </div>
+            </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>Powered by JsonPowerDB serverless NoSQL database engine.</p>
+        </footer>
+    </div>
+
+    <!-- Scripts (jQuery first, then JPDB commons, then index logic) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/jpdb-commons.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>
