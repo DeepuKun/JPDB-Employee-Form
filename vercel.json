@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/jpdb/:path*",
+      "destination": "http://api.login2explore.com:5577/api/:path*"
+    }
+  ]
+}

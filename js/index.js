@@ -539,6 +539,17 @@ function checkIDExists() {
 
 async function loadEnvConfig() {
     console.log("Loading configurations...");
+    
+    const applyBaseUrl = (url) => {
+        if (window.location.protocol === 'https:') {
+            setBaseUrl('/api/jpdb');
+            console.log("HTTPS connection detected. Routing JPDB requests via Vercel reverse proxy (/api/jpdb)");
+        } else {
+            setBaseUrl(url);
+            console.log(`HTTP connection detected. Connecting directly to JPDB: ${url}`);
+        }
+    };
+
     try {
         // 1. Try Vercel Serverless API first
         const apiResponse = await fetch('/api/config');
@@ -550,7 +561,7 @@ async function loadEnvConfig() {
                 relName = config.REL_NAME;
                 const apiBaseUrl = config.BASE_URL;
                 if (apiBaseUrl) {
-                    setBaseUrl(apiBaseUrl);
+                    applyBaseUrl(apiBaseUrl);
                 }
                 console.log("Environment configs loaded dynamically from Vercel Server API.");
                 return true;
@@ -586,7 +597,7 @@ async function loadEnvConfig() {
         const apiBaseUrl = config.BASE_URL;
         
         if (apiBaseUrl) {
-            setBaseUrl(apiBaseUrl);
+            applyBaseUrl(apiBaseUrl);
         }
         
         console.log("Environment configs loaded from local .env.");
