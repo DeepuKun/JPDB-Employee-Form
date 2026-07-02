@@ -538,11 +538,33 @@ function checkIDExists() {
 // -------------------------------------------------------------
 
 async function loadEnvConfig() {
-    console.log("Loading configurations from .env file...");
+    console.log("Loading configurations...");
+    try {
+        // 1. Try Vercel Serverless API first
+        const apiResponse = await fetch('/api/config');
+        if (apiResponse.ok) {
+            const config = await apiResponse.json();
+            if (config.CONN_TOKEN && config.DB_NAME) {
+                connToken = config.CONN_TOKEN;
+                dbName = config.DB_NAME;
+                relName = config.REL_NAME;
+                const apiBaseUrl = config.BASE_URL;
+                if (apiBaseUrl) {
+                    setBaseUrl(apiBaseUrl);
+                }
+                console.log("Environment configs loaded dynamically from Vercel Server API.");
+                return true;
+            }
+        }
+    } catch (e) {
+        console.log("Server API config not available, trying local .env.");
+    }
+    
+    // 2. Fallback: Try local .env file
     try {
         const response = await fetch('.env');
         if (!response.ok) {
-            throw new Error(`Failed to fetch .env file, status: ${response.status}`);
+            throw new Error(`Failed to fetch local .env file, status: ${response.status}`);
         }
         const text = await response.text();
         const config = {};
@@ -567,11 +589,11 @@ async function loadEnvConfig() {
             setBaseUrl(apiBaseUrl);
         }
         
-        console.log("Environment configs loaded successfully.");
+        console.log("Environment configs loaded from local .env.");
         return true;
     } catch (e) {
-        console.error("Error loading .env configurations:", e);
-        showToast("Error loading connection configurations from .env", "error");
+        console.error("Error loading configurations:", e);
+        showToast("Error loading connection configurations. Please check .env file locally or set environment variables on Vercel.", "error");
         return false;
     }
 }
