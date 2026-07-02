@@ -1,0 +1,10 @@
+{
+  "name": "jpdb-employee-form",
+  "version": "1.0.0",
+  "description": "Employee Form with navigation and operations using HTML, CSS, JavaScript, jQuery, and JsonPowerDB.",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -c-1 -p 8080"
+  },
+  "dependencies": {}
+}
