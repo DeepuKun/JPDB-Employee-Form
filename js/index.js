@@ -568,10 +568,31 @@ async function loadEnvConfig() {
             }
         }
     } catch (e) {
-        console.log("Server API config not available, trying local .env.");
+        console.log("Server API config not available, trying other sources.");
     }
     
-    // 2. Fallback: Try local .env file
+    // 2. Try config.json (Local standard JSON fallback for servers like VS Code Live Server)
+    try {
+        const response = await fetch('config.json');
+        if (response.ok) {
+            const config = await response.json();
+            if (config.CONN_TOKEN && config.DB_NAME) {
+                connToken = config.CONN_TOKEN;
+                dbName = config.DB_NAME;
+                relName = config.REL_NAME;
+                const apiBaseUrl = config.BASE_URL;
+                if (apiBaseUrl) {
+                    applyBaseUrl(apiBaseUrl);
+                }
+                console.log("Environment configs loaded from config.json.");
+                return true;
+            }
+        }
+    } catch (e) {
+        console.log("config.json not available, trying local .env.");
+    }
+    
+    // 3. Fallback: Try local .env file
     try {
         const response = await fetch('.env');
         if (!response.ok) {
@@ -604,7 +625,7 @@ async function loadEnvConfig() {
         return true;
     } catch (e) {
         console.error("Error loading configurations:", e);
-        showToast("Error loading connection configurations. Please check .env file locally or set environment variables on Vercel.", "error");
+        showToast("Error loading connection configurations. Please check config.json or .env file locally.", "error");
         return false;
     }
 }
@@ -618,7 +639,7 @@ function initEmployeeForm() {
     localStorage.removeItem("last_rec_no");
     
     if (!connToken || !dbName || !relName) {
-        showToast("Ensure Database connection configs are completely filled in the .env file.", "error");
+        showToast("Ensure Database connection configs are completely filled in config.json or .env file.", "error");
         return;
     }
     
